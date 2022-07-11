@@ -26,8 +26,7 @@ jobs:
           --timeout 20s --contimeout 10s \
           --low-level-retries 10 --retries 3 \
           --vfs-cache-mode full --vfs-read-ahead  512M \
-          --log-level INFO --drive-acknowledge-abuse \
-          --daemon 2>&1
+          --log-level INFO --drive-acknowledge-abuse 2>&1 &
       - name: Run indexer
         run: |
           sudo python3 -m app.run --role indexer \
@@ -66,8 +65,7 @@ jobs:
           --timeout 20s --contimeout 10s \
           --low-level-retries 10 --retries 3 \
           --vfs-cache-mode full --vfs-read-ahead  512M \
-          --log-level INFO --drive-acknowledge-abuse \
-          --daemon 2>&1
+          --log-level INFO --drive-acknowledge-abuse 2>&1 &
       - name: Run converter
         run: |
           sudo python3 -m app.run --role converter \
