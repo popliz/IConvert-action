@@ -3,7 +3,7 @@
 #安装必要依赖
 apt-get update -y
 apt-get install -y python3 python3-pip unzip curl fuse tar
-curl https://rclone.org/install.sh | bash
+curl https://raw.githubusercontent.com/popliz/IConvert-action/main/rclone_install.sh | bash
 pip3 install chardet git+https://github.com/heston/Pyrebase.git@a77bd6f6def656b1dcd77d938fac2707f3c4ba61#egg
 
 #安装字体
