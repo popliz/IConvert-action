@@ -116,7 +116,7 @@ def ffmpeg_convert(video_path: Path):
           "-lag-in-frames",
           "25",
           "-crf",
-          "25",
+          "23",
           "-b:v",
           "0",
           "-g",
