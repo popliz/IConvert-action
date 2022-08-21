@@ -64,7 +64,11 @@ if __name__ == "__main__":
     # 检查是否开始下一班车
     running_task_number = GLOBAL.DB.get_running_task_number()
     waiting_task_number = GLOBAL.DB.get_waiting_task_number()
-    if running_task_number == 0 and waiting_task_number > 0:
-      logging.info(f"还有{waiting_task_number}个任务待做，下一班车 :)")
+    if running_task_number > 0:
+      logging.info(f"还有{waiting_task_number}个任务尚未完成，什么也不做...")
+    elif waiting_task_number > 0:
+      logging.info(f"还有{waiting_task_number}个任务等待完成，通知下一班车...")
       notify_workflow(GLOBAL.CONFIG.owner_repo, GLOBAL.CONFIG.workflow_id,
                       GLOBAL.CONFIG.github_token)
+    else:
+      logging.info("所有任务都已经完成！")
