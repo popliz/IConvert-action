@@ -21,7 +21,7 @@ jobs:
       - name: rclone mount
         run: | 
           sudo mkdir /iconvert && \
-          sudo rclone mount odcn_paolusite_ba95_sp:/ /iconvert \
+          sudo rclone mount od_lizkes_backup_root:/ /iconvert \
           --buffer-size 128M --allow-other \
           --timeout 20s --contimeout 10s \
           --low-level-retries 10 --retries 3 \
@@ -31,7 +31,7 @@ jobs:
       - name: Run indexer
         run: |
           sudo python3 -m app.run --role indexer \
-          --input-dir /iconvert/工作区/等待转码 \
+          --input-dir /iconvert/视频 \
           --firebase-api-key ${{ secrets.firebase_api_key }} \
           --firebase-db-url https://lizkes-default-rtdb.asia-southeast1.firebasedatabase.app/ \
           --firebase-project-id lizkes \
@@ -61,7 +61,7 @@ jobs:
       - name: rclone mount
         run: | 
           sudo mkdir /iconvert && \
-          sudo rclone mount odcn_paolusite_ba95_sp:/ /iconvert \
+          sudo rclone mount od_lizkes_backup_root:/ /iconvert \
           --buffer-size 128M --allow-other \
           --timeout 20s --contimeout 10s \
           --low-level-retries 10 --retries 3 \
@@ -71,9 +71,9 @@ jobs:
       - name: Run converter
         run: |
           sudo python3 -m app.run --role converter \
-          --input-dir /iconvert/工作区/等待转码 \
-          --output-dir /iconvert/工作区/转码完成 \
-          --remote-output-dir odcn_paolusite_ba95_sp:/工作区/转码完成 \
+          --input-dir /iconvert/视频 \
+          --output-dir /iconvert/视频 \
+          --remote-output-dir od_lizkes_backup_root:/视频 \
           --format webm --keep-origin \
           --firebase-api-key ${{ secrets.firebase_api_key }} \
           --firebase-db-url https://lizkes-default-rtdb.asia-southeast1.firebasedatabase.app/ \
