@@ -160,9 +160,11 @@ def ffmpeg_convert(video_path: Path):
       logging.error("字幕格式不正确！")
       sys.exit(1)
 
+    escape_sub_path = sub_path.as_posix().replace(":", "\\:").replace(
+        "[", "\\[").replace("]", "\\]")
     command.extend([
         "-vf",
-        f"{sub_command}={sub_path.as_posix()}",
+        f"{sub_command}={escape_sub_path}",
     ])
 
   if match_ac_index is None:

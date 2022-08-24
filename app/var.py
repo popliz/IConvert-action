@@ -9,7 +9,7 @@ parser.add_argument(
     "--role", choices=["converter", "indexer"], default="converter")
 parser.add_argument("--min-size", type=int, default=0, help="脚本处理的最小文件大小，单位MB")
 parser.add_argument(
-    "--max-size", type=int, default=10240, help="脚本处理的最大文件大小，单位MB")
+    "--max-size", type=int, default=2048, help="脚本处理的最大文件大小，单位MB")
 parser.add_argument("--thread", type=int, default=0)
 parser.add_argument("--keep-origin", action="store_true", help="是否保留原始文件")
 # mp4格式使用h264 + aac编码，webm格式使用vp9 + opus编码
