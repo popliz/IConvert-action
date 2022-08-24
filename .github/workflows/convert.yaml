@@ -74,7 +74,7 @@ jobs:
           --input-dir /iconvert/视频 \
           --output-dir /iconvert/视频 \
           --remote-output-dir od_lizkes_backup_root:/视频 \
-          --format webm --keep-origin \
+          --format webm \
           --firebase-api-key ${{ secrets.firebase_api_key }} \
           --firebase-db-url https://lizkes-default-rtdb.asia-southeast1.firebasedatabase.app/ \
           --firebase-project-id lizkes \
