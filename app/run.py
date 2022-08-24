@@ -2,6 +2,7 @@ import sys
 import logging
 import logging.handlers
 from pathlib import Path
+from time import sleep
 
 import app.var as GLOBAL
 from app.indexer import Indexer
@@ -62,13 +63,20 @@ if __name__ == "__main__":
     tasks.execute()
 
     # 检查是否开始下一班车
-    running_task_number = GLOBAL.DB.get_running_task_number()
+    for i in range(5):
+      if i != 0:
+        sleep(60)
+      running_task_number = GLOBAL.DB.get_running_task_number()
+      if running_task_number > 0:
+        logging.info(f"还有{running_task_number}个任务正在运行，直接退出...")
+        sys.exit(0)
+      else:
+        logging.info(f"尚无运行中的任务，60秒后再次检测，还需要检测{4-i}次")
+
     waiting_task_number = GLOBAL.DB.get_waiting_task_number()
-    if running_task_number > 0:
-      logging.info(f"还有{waiting_task_number}个任务尚未完成，什么也不做...")
-    elif waiting_task_number > 0:
+    if waiting_task_number > 0:
       logging.info(f"还有{waiting_task_number}个任务等待完成，通知下一班车...")
       notify_workflow(GLOBAL.CONFIG.owner_repo, GLOBAL.CONFIG.workflow_id,
                       GLOBAL.CONFIG.github_token)
     else:
-      logging.info("所有任务都已经完成！")
+      logging.info("所有任务都已经完成！直接退出")
