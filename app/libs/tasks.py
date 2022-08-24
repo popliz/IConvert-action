@@ -118,6 +118,10 @@ class Tasks:
         logging.info(f"[{index + 1}/{len(self.data)}]任务超时")
         task.update_status(TaskStatus.Timeout)
         GLOBAL.DB.update_task_status(task)
+      elif result == TaskReturnCode.Skip:
+        logging.info(f"[{index + 1}/{len(self.data)}]任务跳过")
+        task.update_status(TaskStatus.Done)
+        GLOBAL.DB.update_task_status(task)
 
       # 善后处理
       GLOBAL.DB.remove_running_task(task)

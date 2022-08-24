@@ -82,7 +82,11 @@ class Task():
         return TaskReturnCode.Error
 
       try:
-        self.outputPath = ffmpeg_convert(self.path)
+        result = ffmpeg_convert(self.path)
+        if result is None:
+          return TaskReturnCode.Skip
+        else:
+          self.outputPath = result
       except KeyboardInterrupt:
         return TaskReturnCode.Stop
       except subprocess.TimeoutExpired:
