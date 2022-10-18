@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 import app.var as GLOBAL
-from app.libs.encode import get_file_encoding, file_to_utf8
 from app.libs.info import VideoInfo, AC, VC
 from app.libs.path import rm, change_parent_dir
 
@@ -74,12 +73,6 @@ def ffmpeg_convert(video_path: Path):
     if sp.exists():
       sub_path = sp
       break
-  # 确保字幕文件的编码为UTF-8
-  if sub_path is not None:
-    sub_file_encoding = get_file_encoding(sub_path)
-    if sub_file_encoding != "UTF-8":
-      logging.debug(f"字幕文件编码为{sub_file_encoding}, 转换为UTF-8")
-      file_to_utf8(sub_file_encoding, sub_path, sub_path)
 
   # 判断是否可以跳过
   if (video_path.suffix[1:] == video_format and match_vc_index is not None and
@@ -152,10 +145,8 @@ def ffmpeg_convert(video_path: Path):
 
   # 添加字幕
   if sub_path is not None:
-    if sub_path.suffix.lower() == ".srt":
-      sub_command = "subtitles"
-    elif sub_path.suffix.lower() == ".ass":
-      sub_command = "ass"
+    if sub_path.suffix.lower() in [".srt", ".ass", ".ssa"]:
+      logging.error("检测到字幕文件，开始烧录...")
     else:
       logging.error("字幕格式不正确！")
       sys.exit(1)
@@ -164,7 +155,7 @@ def ffmpeg_convert(video_path: Path):
         "[", "\\[").replace("]", "\\]")
     command.extend([
         "-vf",
-        f"{sub_command}={escape_sub_path}",
+        f"subtitles='{escape_sub_path}'",
     ])
 
   if match_ac_index is None:
